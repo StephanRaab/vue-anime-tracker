@@ -22,7 +22,7 @@ const searchAnime = () => {
 
 const handleInput = e => {
   if (!e.target.value) {
-    // if input field empty, set search to empty array
+    // if input field is cleared, set search to empty array
     search_results.value = []
   }
 }
@@ -81,10 +81,12 @@ onMounted(() => {
 
   <div v-if="search_results" class="anime-search-results">
     <div class="search-result" v-for="anime in search_results" :key="anime.mal_id">
-      <img :src="anime.images.jpg.small_image_url"/>
+      <img :src="anime.images.jpg.image_url"/>
       <div class="details">
         <h3>{{ anime.title }}</h3>
-        <pre>{{ anime.synopsis }}</pre>
+        <pre :title="anime.synopsis" v-if="anime.synopsis">{{ anime.synopsis }}</pre>
+        <span class="flex-1"/>
+        <button @click="addAnime">Add to My Anime</button>
       </div>
     </div>
   </div>
@@ -93,12 +95,13 @@ onMounted(() => {
     <h2>My Anime</h2>
     
     <div class="my-anime-container">
-      <div class="my-anime">
-        <img/>
-        <p>Dragon Ball</p>
+      <div v-for="anime in my_anime_asc" :key="anime.id">
+        <img :src="anime.img"/>
+        <p>{{anime.title}}</p>
 
         <div>
-          <p>58/153</p>
+          <p>{{ anime.watched_episodes }}}/{{anime.total_episodes}}</p>
+          
           <button class="increment-btn">+</button>
           <button class="decrement-btn">-</button>  
         </div>
