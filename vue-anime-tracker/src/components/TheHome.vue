@@ -7,7 +7,7 @@ const search_results = ref([])
 
 const my_anime_asc = computed(() => {
   return my_anime.value.sort((a, b) => {
-    return a.title.localeCompare(b.title)
+    return a.date_added.localeCompare(b.date_added)
   })
 })
 
@@ -64,14 +64,30 @@ onMounted(() => {
 </script>
 
 <template>
-  <section>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <main>
+    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="40" height="40"/>
     <h1>Vue Anime Tracker</h1>
 
-    <form>
-      <input type="text"  placeholder="search for an anime..."> <button>Search</button>
+    <form @submit.prevent="searchAnime">
+      <input 
+      type="text"  
+      placeholder="search for an anime..."
+      v-model="query"
+      @input="handleInput"
+      /> 
+      <button type="submit">Search</button>
     </form>
-  </section>
+  </main>
+
+  <div v-if="search_results" class="anime-search-results">
+    <div class="search-result" v-for="anime in search_results" :key="anime.mal_id">
+      <img :src="anime.images.jpg.small_image_url"/>
+      <div class="details">
+        <h3>{{ anime.title }}</h3>
+        <pre>{{ anime.synopsis }}</pre>
+      </div>
+    </div>
+  </div>
 
   <section>
     <h2>My Anime</h2>
