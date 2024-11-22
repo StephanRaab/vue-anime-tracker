@@ -46,15 +46,26 @@ const addAnime = anime => {
   localStorage.setItem('my_anime', JSON.stringify(my_anime.value))
 }
 
-const incrementWatchCount = anime => {
-  anime.watched_episodes++;
+const deleteAnime = anime => {
+  const index = my_anime.value.findIndex(a => a.id === anime.id)
+  my_anime.value.splice(index, 1)
+
   localStorage.setItem('my_anime', JSON.stringify(my_anime.value))
+}
+
+const incrementWatchCount = anime => {
+  if (anime.watched_episodes < anime.total_episodes) {
+    anime.watched_episodes++;
+    localStorage.setItem('my_anime', JSON.stringify(my_anime.value))
+  }  
 }
 
 const decrementWatchCount = anime => {
   anime.watched_episodes--;
   localStorage.setItem('my_anime', JSON.stringify(my_anime.value))
 }
+
+
 // const deleteAnime
 // const completeAnime
 
@@ -94,11 +105,13 @@ onMounted(() => {
         <img :src="anime.img" />
         <p>{{ anime.title }}</p>
 
-        <div>
-          <p>{{ anime.watched_episodes }}/{{ anime.total_episodes }}</p>
+        <div class="anime-progress">
+          <p>Progress: {{ anime.watched_episodes }}/{{ anime.total_episodes }}</p>
 
           <button class="decrement-btn" @click="decrementWatchCount(anime)">-</button>
           <button class="increment-btn" @click="incrementWatchCount(anime)">+</button>
+
+          <button class="delete-btn" @click="deleteAnime(anime)">Delete</button>
         </div>
 
       </div>
