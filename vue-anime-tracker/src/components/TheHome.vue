@@ -6,8 +6,8 @@ const my_anime = ref([])
 const search_results = ref([])
 
 const my_anime_asc = computed(() => {
-  return my_anime.value.sort((a, b) => {
-    return a.date_added.localeCompare(b.date_added)
+  return [...my_anime.value].sort((a, b) => {
+    return b.date_added - a.date_added; // show newest added first
   })
 })
 
@@ -32,18 +32,24 @@ const addAnime = anime => {
   search_results.value = []
   query.value = ''
 
-  // https://docs.api.jikan.moe/#tag/anime/operation/getAnimeSearch
-  my_anime.value.push({
-    id: anime.mal_id,
-    title: anime.title,
-    img: anime.images.jpg.small_image_url,
-    watched_episodes: 0,
-    total_episodes: anime.episodes,
-    date_added: Date.now(),
-    isCompleted: false
-  })
+  const exists = my_anime.value.some(a => a.id === anime.mal_id);
 
-  localStorage.setItem('my_anime', JSON.stringify(my_anime.value))
+  if (!exists) {
+    // https://docs.api.jikan.moe/#tag/anime/operation/getAnimeSearch
+    my_anime.value.push({
+      id: anime.mal_id,
+      title: anime.title,
+      img: anime.images.jpg.small_image_url,
+      watched_episodes: 0,
+      total_episodes: anime.episodes,
+      date_added: Date.now(),
+      isCompleted: false
+    })
+
+    localStorage.setItem('my_anime', JSON.stringify(my_anime.value))
+  } else {
+    alert(`${anime.title} is already in your list.`);
+  }
 }
 
 const deleteAnime = anime => {
@@ -54,10 +60,8 @@ const deleteAnime = anime => {
 }
 
 const incrementWatchCount = anime => {
-  if (anime.watched_episodes < anime.total_episodes) {
-    anime.watched_episodes++;
-    localStorage.setItem('my_anime', JSON.stringify(my_anime.value))
-  }  
+  anime.watched_episodes++;
+  localStorage.setItem('my_anime', JSON.stringify(my_anime.value))
 }
 
 const decrementWatchCount = anime => {
@@ -108,8 +112,9 @@ onMounted(() => {
         <div class="anime-progress">
           <p>Progress: {{ anime.watched_episodes }}/{{ anime.total_episodes }}</p>
 
-          <button class="decrement-btn" @click="decrementWatchCount(anime)">-</button>
-          <button class="increment-btn" @click="incrementWatchCount(anime)">+</button>
+          <button v-if="anime.watched_episodes" class="decrement-btn" @click="decrementWatchCount(anime)">-</button>
+          <button v-if="anime.watched_episodes < anime.total_episodes" class="increment-btn"
+            @click="incrementWatchCount(anime)">+</button>
 
           <button class="delete-btn" @click="deleteAnime(anime)">Delete</button>
         </div>
