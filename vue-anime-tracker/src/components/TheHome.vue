@@ -1,5 +1,66 @@
 <script setup>
+import {ref, computed, onMounted} from 'vue'
 
+const query = ref('')
+const my_anime = ref([])
+const search_results = ref([])
+
+const my_anime_asc = computed(() => {
+  return my_anime.value.sort((a, b) => {
+    return a.title.localeCompare(b.title)
+  })
+})
+
+const searchAnime = () => {
+  const url = `https://api.jikan.moe/v4/anime?q=${query.value}`
+  fetch(url)
+    .then(res => res.json())
+    .then(res => {
+      search_results.value = res.data
+    })
+}
+
+const handleInput = e => {
+  if (!e.target.value) {
+    // if input field empty, set search to empty array
+    search_results.value = []
+  }
+}
+
+const addAnime = anime => {
+  // close search box when we add anime
+  search_results.value = []
+  query.value = ''
+
+  // https://docs.api.jikan.moe/#tag/anime/operation/getAnimeSearch
+  my_anime.value.push({
+    id: anime.mal_id,
+    title: anime.title,
+    img: anime.images.jpg.small_image_url,
+    watched_episodes: 0,
+    total_episodes: anime.episodes,
+    date_added: Date.now(),
+    isCompleted: false
+  })
+
+  localStorage.setItem('my_anime', JSON.stringify(my_anime.value))
+}
+
+const incrementWatchCount = anime => {
+    anime.watched_episodes++;
+    localStorage.setItem('my_anime', JSON.stringify(my_anime.value))
+  }
+
+  const decrementWatchCount = anime => {
+    anime.watched_episodes--;
+    localStorage.setItem('my_anime', JSON.stringify(my_anime.value))
+  }
+// const deleteAnime
+// const completeAnime
+
+onMounted(() => {
+  my_anime.value = JSON.parse(localStorage.getItem('my_anime')) || []
+})
 </script>
 
 <template>
@@ -10,8 +71,6 @@
     <form>
       <input type="text"  placeholder="search for an anime..."> <button>Search</button>
     </form>
-
-
   </section>
 
   <section>
