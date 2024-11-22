@@ -127,26 +127,47 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.my-anime {
-  display: inline-flex;
-  justify-content: space-between;
-  width: 80vh;
-  background-color: #3e3e3e;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: #eeeeee; 
+}
+
+main {
+  margin: 0 auto;
+  max-width: 768px;
   padding: 1.5rem;
-  border-radius: 1rem;
 }
 
-.anime-search-results {
-  max-height: 70vh;
-  width: 60vw;
-  overflow: scroll;
-  margin: 1.2em;
-  background-color: gray;
-  padding: 1.2rem;
+h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
 }
 
-.search-result {
+form {
   display: flex;
-  flex-direction: column;
+  max-width: 480px;
+  margin: 0 auto 1.5rem;
+}
+
+form input {
+  appearance: none;
+  outline: none;
+  border: none;
+  background: #ffffff;
+  display: block;
+  color: #888;
+  font-size: 1.125rem;
+  padding: 0.5rem 1rem;
+  width: 100%;
+}
+
+.search-btn {
+  cursor: pointer;
 }
 </style>
