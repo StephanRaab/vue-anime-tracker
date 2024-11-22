@@ -1,5 +1,5 @@
 <script setup>
-import {ref, computed, onMounted} from 'vue'
+import { ref, computed, onMounted } from 'vue'
 
 const query = ref('')
 const my_anime = ref([])
@@ -47,14 +47,14 @@ const addAnime = anime => {
 }
 
 const incrementWatchCount = anime => {
-    anime.watched_episodes++;
-    localStorage.setItem('my_anime', JSON.stringify(my_anime.value))
-  }
+  anime.watched_episodes++;
+  localStorage.setItem('my_anime', JSON.stringify(my_anime.value))
+}
 
-  const decrementWatchCount = anime => {
-    anime.watched_episodes--;
-    localStorage.setItem('my_anime', JSON.stringify(my_anime.value))
-  }
+const decrementWatchCount = anime => {
+  anime.watched_episodes--;
+  localStorage.setItem('my_anime', JSON.stringify(my_anime.value))
+}
 // const deleteAnime
 // const completeAnime
 
@@ -65,47 +65,42 @@ onMounted(() => {
 
 <template>
   <main>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="40" height="40"/>
+    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="40" height="40" />
     <h1>Vue Anime Tracker</h1>
 
     <form @submit.prevent="searchAnime">
-      <input 
-      type="text"  
-      placeholder="search for an anime..."
-      v-model="query"
-      @input="handleInput"
-      /> 
+      <input type="text" placeholder="search for an anime..." v-model="query" @input="handleInput" />
       <button type="submit">Search</button>
     </form>
   </main>
 
   <div v-if="search_results" class="anime-search-results">
     <div class="search-result" v-for="anime in search_results" :key="anime.mal_id">
-      <img :src="anime.images.jpg.image_url"/>
+      <img :src="anime.images.jpg.image_url" />
       <div class="details">
         <h3>{{ anime.title }}</h3>
         <pre :title="anime.synopsis" v-if="anime.synopsis">{{ anime.synopsis }}</pre>
-        <span class="flex-1"/>
-        <button @click="addAnime">Add to My Anime</button>
+        <span class="flex-1" />
+        <button @click="addAnime(anime)">Add to My Anime</button>
       </div>
     </div>
   </div>
 
   <section>
     <h2>My Anime</h2>
-    
+
     <div class="my-anime-container">
       <div v-for="anime in my_anime_asc" :key="anime.id">
-        <img :src="anime.img"/>
-        <p>{{anime.title}}</p>
+        <img :src="anime.img" />
+        <p>{{ anime.title }}</p>
 
         <div>
-          <p>{{ anime.watched_episodes }}}/{{anime.total_episodes}}</p>
-          
-          <button class="increment-btn">+</button>
-          <button class="decrement-btn">-</button>  
+          <p>{{ anime.watched_episodes }}/{{ anime.total_episodes }}</p>
+
+          <button class="decrement-btn" @click="decrementWatchCount(anime)">-</button>
+          <button class="increment-btn" @click="incrementWatchCount(anime)">+</button>
         </div>
-        
+
       </div>
     </div>
 
