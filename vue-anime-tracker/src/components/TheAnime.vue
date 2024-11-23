@@ -93,7 +93,7 @@ onMounted(() => {
         <img :src="anime.images.jpg.image_url" />
         <div class="details">
           <h3>{{ anime.title }}</h3>
-          <pre :title="anime.synopsis" v-if="anime.synopsis">{{ anime.synopsis }}</pre>
+          <p :title="anime.synopsis" v-if="anime.synopsis">{{ anime.synopsis.slice(0, 120) }}...</p>
           <span class="flex-1" />
           <button @click="addAnime(anime)" class="btn">Add to My Anime</button>
         </div>
@@ -203,5 +203,38 @@ form input {
   border: 1px solid #cccccc;
   border-radius: 0.5rem;
   transition: 0.4s;
+}
+
+.single-search-result img {
+  width: 150px;
+  border-radius: 1rem;
+  margin-right: 1rem;
+}
+
+.details {
+  flex: 1 1 0%; /* make sure it keeps its sizing */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.flex-1 {
+  flex: 1 1 0%;
+}
+
+.details h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+}
+
+.details p {
+  font-size: 0.8rem;
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+.details button {
+  margin-left: auto;
 }
 </style>
