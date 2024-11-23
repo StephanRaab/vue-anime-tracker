@@ -77,22 +77,20 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
     <main>
-      
       <h1><img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="40" height="40" />ue Anime Tracker</h1>
 
       <form @submit.prevent="searchAnime">
         <input type="text" placeholder="search for an anime..." v-model="query" @input="handleInput" />
         <button type="submit" class="btn">SEARCH</button>
       </form>
-    </main>
 
+        <!-- search-container -->
     <div v-if="search_results" class="search-results">
       <div class="single-search-result" v-for="anime in search_results" :key="anime.mal_id">
         <img :src="anime.images.jpg.image_url" />
         <div class="details">
-          <h3>{{ anime.title }}</h3>
+          <h3>{{ anime.title }} -- [{{ anime.episodes }} episodes]</h3>
           <p :title="anime.synopsis" v-if="anime.synopsis">{{ anime.synopsis.slice(0, 120) }}...</p>
           <span class="flex-1" />
           <button @click="addAnime(anime)" class="btn">Add to My Anime</button>
@@ -100,28 +98,24 @@ onMounted(() => {
       </div>
     </div>
 
-    <section>
-      <h2>My Anime</h2>
-
-      <div class="my-anime-container">
-        <div v-for="anime in my_anime_asc" :key="anime.id">
+    <!-- anime-container -->
+      <div class="my-anime-container" v-if="my_anime.length > 0">
+        <h2>My Anime</h2>
+        <div v-for="anime in my_anime_asc" :key="anime.id" class="anime">
           <img :src="anime.img" />
           <h3>{{ anime.title }}</h3>
 
           <div class="flex-1"></div>
 
-          <div class="anime-progress">
-            <span>Progress: {{ anime.watched_episodes }}/{{ anime.total_episodes }}</span>
+            <span class="progress">Progress: {{ anime.watched_episodes }}/{{ anime.total_episodes }}</span>
 
             <button :disabled="anime.watched_episodes == 0" class="btn" @click="decrementWatchCount(anime)">-</button>
             <button :disabled="anime.watched_episodes == anime.total_episodes" class="btn"
               @click="incrementWatchCount(anime)">+</button>
             <button class="btn delete-btn" @click="deleteAnime(anime)">Delete</button>
-          </div>
         </div>
       </div>
-    </section>
-  </div>
+    </main>
 </template>
 
 <style scoped>
@@ -183,8 +177,17 @@ form input {
   background-position: right;
 }
 
+.btn:disabled {
+  opacity: 0.5; /* reduce opacity to indicate disabled state */
+  cursor: not-allowed; /* change cursor to indicate disabled state */
+}
+
+.btn:disabled:hover {
+  background-position:0
+}
+
 .delete-btn {
-  background-image: linear-gradient(to right, #ba3f5e 50%, #5e3056 50%);
+  background-image: linear-gradient(to right, #ba3f5e 50%, #eb46cc 50%);
 }
 
 .search-results {
@@ -236,5 +239,49 @@ form input {
 
 .details button {
   margin-left: auto;
+}
+
+.my-anime-container h2{
+  color: #888;
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+}
+
+.my-anime-container .anime {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  background-color: #ffffff;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1)
+}
+
+.anime img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  margin-right: 1rem;
+}
+
+.anime h3 {
+  color: #666;
+  font-size: 1.3rem;
+}
+
+.anime .progress {
+  margin-right: 1rem;
+  color: #777;
+}
+
+.anime .btn:first-of-type {
+  margin-right: 0.5rem;
+}
+
+.anime .btn:last-of-type {
+  margin-left: 1rem;
+  margin-right: 0;
 }
 </style>
