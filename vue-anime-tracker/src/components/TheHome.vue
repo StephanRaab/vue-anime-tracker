@@ -84,7 +84,7 @@ onMounted(() => {
 
       <form @submit.prevent="searchAnime">
         <input type="text" placeholder="search for an anime..." v-model="query" @input="handleInput" />
-        <button type="submit">Search</button>
+        <button type="submit" class="btn">SEARCH</button>
       </form>
     </main>
 
@@ -95,7 +95,7 @@ onMounted(() => {
           <h3>{{ anime.title }}</h3>
           <pre :title="anime.synopsis" v-if="anime.synopsis">{{ anime.synopsis }}</pre>
           <span class="flex-1" />
-          <button @click="addAnime(anime)">Add to My Anime</button>
+          <button @click="addAnime(anime)" class="btn">Add to My Anime</button>
         </div>
       </div>
     </div>
@@ -113,11 +113,11 @@ onMounted(() => {
           <div class="anime-progress">
             <span>Progress: {{ anime.watched_episodes }}/{{ anime.total_episodes }}</span>
 
-            <button :disabled="anime.watched_episodes == 0" class="decrement-btn" @click="decrementWatchCount(anime)">-</button>
-            <button :disabled="anime.watched_episodes == anime.total_episodes" class="increment-btn"
+            <button :disabled="anime.watched_episodes == 0" class="btn" @click="decrementWatchCount(anime)">-</button>
+            <button :disabled="anime.watched_episodes == anime.total_episodes" class="btn"
               @click="incrementWatchCount(anime)">+</button>
 
-            <button class="delete-btn" @click="deleteAnime(anime)">Delete</button>
+            <button class="btn delete-btn" @click="deleteAnime(anime)">Delete</button>
           </div>
 
         </div>
@@ -167,7 +167,37 @@ form input {
   width: 100%;
 }
 
-.search-btn {
+.btn {
+  appearance: none;
+  outline: none;
+  border: none;
   cursor: pointer;
+  background: none;
+  display: block;
+  padding: 0.5rem 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  background-image: linear-gradient(to right, #3FBA84 50%, #30485E 50%);
+  transition: 0.4s;
+  background-size: 200%;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.btn:hover {
+  background-position: right;
+}
+
+.delete-btn {
+  background-image: linear-gradient(to right, #ba3f5e 50%, #5e3056 50%);
+}
+
+.anime-search-results {
+  background-color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  max-height: 480px;
+  overflow-y: scroll;
+  margin-bottom: 1.5rem;
 }
 </style>
