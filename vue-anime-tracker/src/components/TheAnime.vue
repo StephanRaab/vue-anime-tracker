@@ -119,13 +119,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-}
-
 main {
   margin: 0 auto;
   max-width: 768px;
