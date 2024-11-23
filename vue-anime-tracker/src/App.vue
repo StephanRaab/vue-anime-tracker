@@ -40,7 +40,7 @@ nav a {
   text-decoration: none;
   color: #30485e;
   display:inline-block;
-  margin-top: 1rem;
+  margin-top: .2rem;
 }
 
 nav a:hover {
