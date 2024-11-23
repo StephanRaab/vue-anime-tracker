@@ -79,8 +79,8 @@ onMounted(() => {
 <template>
   <div>
     <main>
-      <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="40" height="40" />
-      <h1>Vue Anime Tracker</h1>
+      
+      <h1><img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="40" height="40" />ue Anime Tracker</h1>
 
       <form @submit.prevent="searchAnime">
         <input type="text" placeholder="search for an anime..." v-model="query" @input="handleInput" />
@@ -88,8 +88,8 @@ onMounted(() => {
       </form>
     </main>
 
-    <div v-if="search_results" class="anime-search-results">
-      <div class="search-result" v-for="anime in search_results" :key="anime.mal_id">
+    <div v-if="search_results" class="search-results">
+      <div class="single-search-result" v-for="anime in search_results" :key="anime.mal_id">
         <img :src="anime.images.jpg.image_url" />
         <div class="details">
           <h3>{{ anime.title }}</h3>
@@ -116,10 +116,8 @@ onMounted(() => {
             <button :disabled="anime.watched_episodes == 0" class="btn" @click="decrementWatchCount(anime)">-</button>
             <button :disabled="anime.watched_episodes == anime.total_episodes" class="btn"
               @click="incrementWatchCount(anime)">+</button>
-
             <button class="btn delete-btn" @click="deleteAnime(anime)">Delete</button>
           </div>
-
         </div>
       </div>
     </section>
@@ -134,10 +132,6 @@ onMounted(() => {
   font-family: 'Poppins', sans-serif;
 }
 
-body {
-  background-color: #eeeeee; 
-}
-
 main {
   margin: 0 auto;
   max-width: 768px;
@@ -147,6 +141,7 @@ main {
 h1 {
   text-align: center;
   margin-bottom: 1.5rem;
+  text-transform: uppercase;
 }
 
 form {
@@ -192,12 +187,21 @@ form input {
   background-image: linear-gradient(to right, #ba3f5e 50%, #5e3056 50%);
 }
 
-.anime-search-results {
-  background-color: #fff;
+.search-results {
+  background-color: #ffffff;
   border-radius: 0.5rem;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   max-height: 480px;
   overflow-y: scroll;
   margin-bottom: 1.5rem;
+}
+
+.single-search-result {
+  display: flex;
+  margin: 1rem;
+  padding: 1rem;
+  border: 1px solid #cccccc;
+  border-radius: 0.5rem;
+  transition: 0.4s;
 }
 </style>
