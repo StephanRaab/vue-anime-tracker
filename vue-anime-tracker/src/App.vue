@@ -1,19 +1,17 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-</script>
-
 <template>
-  <header>
-    <div class="wrapper">
-      <nav>
-        <RouterLink to="/">Anime</RouterLink>
-        <span> | </span>
-        <RouterLink to="/manga">Manga</RouterLink>
-      </nav>
-    </div>
-  </header>
+  <div>
+    <header>
+      <div class="wrapper">
+        <nav>
+          <RouterLink to="/">Anime</RouterLink>
+          <span> | </span>
+          <RouterLink to="/manga">Manga</RouterLink>
+        </nav>
+      </div>
+    </header>
 
-  <RouterView />
+    <RouterView />
+  </div>
 </template>
 
 <style>
@@ -39,7 +37,7 @@ nav a {
   font-weight: 700;
   text-decoration: none;
   color: #30485e;
-  display:inline-block;
+  display: inline-block;
   margin-top: .2rem;
 }
 
