@@ -85,7 +85,7 @@ onMounted(() => {
         <button type="submit" class="btn">SEARCH</button>
       </form>
 
-        <!-- search-container -->
+    <!-- search-container -->
     <div v-if="search_results" class="search-results">
       <div class="single-search-result" v-for="anime in search_results" :key="anime.mal_id">
         <img :src="anime.images.jpg.image_url" />
