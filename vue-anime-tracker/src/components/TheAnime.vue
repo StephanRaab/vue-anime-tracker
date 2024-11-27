@@ -78,8 +78,6 @@ onMounted(() => {
 
 <template>
     <main>
-      <h1><img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="40" height="40" />ue Anime Tracker</h1>
-
       <form @submit.prevent="searchAnime">
         <input type="text" placeholder="search for an anime..." v-model="query" @input="handleInput" />
         <button type="submit" class="btn">SEARCH</button>
@@ -119,18 +117,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-main {
-  margin: 0 auto;
-  max-width: 768px;
-  padding: 1.5rem;
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  text-transform: uppercase;
-}
-
 form {
   display: flex;
   max-width: 480px;

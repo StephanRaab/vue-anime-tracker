@@ -1,5 +1,10 @@
+<script setup>
+import PageHeader from '@/components/PageHeader.vue';
+</script>
+
 <template>
-  <div class="manga">
-    <h1>This is the manga page</h1>
-  </div>
+  <main>
+    <!-- page header -->
+    <PageHeader title="ue manga tracker" />
+  </main>
 </template>
