@@ -45,4 +45,16 @@ nav a:hover {
   color: #3fba3f;
   transition: 0.3s;
 }
+
+main {
+  margin: 0 auto;
+  max-width: 768px;
+  padding: 1.5rem;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+}
 </style>
