@@ -1,3 +1,43 @@
+<template>
+  <main>
+    <form @submit.prevent="searchAnime">
+      <input type="text" placeholder="search for an anime..." v-model="query" @input="checkInputIsCleared" />
+      <button type="submit" class="btn">SEARCH</button>
+    </form>
+
+    <!-- search-container -->
+    <div v-if="search_results" class="search-results">
+      <div class="single-search-result" v-for="anime in search_results" :key="anime.mal_id">
+        <img :src="anime.images.jpg.image_url" />
+        <div class="details">
+          <h3>{{ anime.title }} -- [{{ anime.episodes }} episodes]</h3>
+          <p :title="anime.synopsis" v-if="anime.synopsis">{{ anime.synopsis.slice(0, 120) }}...</p>
+          <span class="flex-1" />
+          <button @click="addAnime(anime)" class="btn">Add to My Anime</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- anime-container -->
+    <div class="my-anime-container" v-if="my_anime.length > 0">
+      <h2>My Anime</h2>
+      <div v-for="anime in my_anime_asc" :key="anime.id" class="anime">
+        <img :src="anime.img" />
+        <h3>{{ anime.title }}</h3>
+
+        <div class="flex-1"></div>
+
+        <span class="progress">Progress: {{ anime.watched_episodes }}/{{ anime.total_episodes }}</span>
+
+        <button :disabled="anime.watched_episodes == 0" class="btn" @click="decrementWatchCount(anime)">-</button>
+        <button :disabled="anime.watched_episodes == anime.total_episodes" class="btn"
+          @click="incrementWatchCount(anime)">+</button>
+        <button class="btn delete-btn" @click="deleteAnime(anime)">Delete</button>
+      </div>
+    </div>
+  </main>
+</template>
+
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 
@@ -76,46 +116,6 @@ onMounted(() => {
 })
 </script>
 
-<template>
-    <main>
-      <form @submit.prevent="searchAnime">
-        <input type="text" placeholder="search for an anime..." v-model="query" @input="checkInputIsCleared" />
-        <button type="submit" class="btn">SEARCH</button>
-      </form>
-
-    <!-- search-container -->
-    <div v-if="search_results" class="search-results">
-      <div class="single-search-result" v-for="anime in search_results" :key="anime.mal_id">
-        <img :src="anime.images.jpg.image_url" />
-        <div class="details">
-          <h3>{{ anime.title }} -- [{{ anime.episodes }} episodes]</h3>
-          <p :title="anime.synopsis" v-if="anime.synopsis">{{ anime.synopsis.slice(0, 120) }}...</p>
-          <span class="flex-1" />
-          <button @click="addAnime(anime)" class="btn">Add to My Anime</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- anime-container -->
-      <div class="my-anime-container" v-if="my_anime.length > 0">
-        <h2>My Anime</h2>
-        <div v-for="anime in my_anime_asc" :key="anime.id" class="anime">
-          <img :src="anime.img" />
-          <h3>{{ anime.title }}</h3>
-
-          <div class="flex-1"></div>
-
-            <span class="progress">Progress: {{ anime.watched_episodes }}/{{ anime.total_episodes }}</span>
-
-            <button :disabled="anime.watched_episodes == 0" class="btn" @click="decrementWatchCount(anime)">-</button>
-            <button :disabled="anime.watched_episodes == anime.total_episodes" class="btn"
-              @click="incrementWatchCount(anime)">+</button>
-            <button class="btn delete-btn" @click="deleteAnime(anime)">Delete</button>
-        </div>
-      </div>
-    </main>
-</template>
-
 <style scoped>
 form {
   display: flex;
@@ -157,12 +157,14 @@ form input {
 }
 
 .btn:disabled {
-  opacity: 0.5; /* reduce opacity to indicate disabled state */
-  cursor: not-allowed; /* change cursor to indicate disabled state */
+  opacity: 0.5;
+  /* reduce opacity to indicate disabled state */
+  cursor: not-allowed;
+  /* change cursor to indicate disabled state */
 }
 
 .btn:disabled:hover {
-  background-position:0
+  background-position: 0
 }
 
 .delete-btn {
@@ -172,7 +174,7 @@ form input {
 .search-results {
   background-color: #ffffff;
   border-radius: 0.5rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   max-height: 480px;
   overflow-y: scroll;
   margin-bottom: 1.5rem;
@@ -194,7 +196,8 @@ form input {
 }
 
 .details {
-  flex: 1 1 0%; /* make sure it keeps its sizing */
+  flex: 1 1 0%;
+  /* make sure it keeps its sizing */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -220,7 +223,7 @@ form input {
   margin-left: auto;
 }
 
-.my-anime-container h2{
+.my-anime-container h2 {
   color: #888;
   font-weight: 400;
   margin-bottom: 1.5rem;
@@ -234,7 +237,7 @@ form input {
   background-color: #ffffff;
   padding: 1rem;
   border-radius: 0.5rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1)
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)
 }
 
 .anime img {
