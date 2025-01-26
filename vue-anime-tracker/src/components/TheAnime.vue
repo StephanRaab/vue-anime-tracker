@@ -20,7 +20,7 @@ const searchAnime = () => {
     })
 }
 
-const handleInput = e => {
+const checkInputIsCleared = e => {
   if (!e.target.value) {
     // if input field is cleared, set search to empty array
     search_results.value = []
@@ -79,7 +79,7 @@ onMounted(() => {
 <template>
     <main>
       <form @submit.prevent="searchAnime">
-        <input type="text" placeholder="search for an anime..." v-model="query" @input="handleInput" />
+        <input type="text" placeholder="search for an anime..." v-model="query" @input="checkInputIsCleared" />
         <button type="submit" class="btn">SEARCH</button>
       </form>
 
